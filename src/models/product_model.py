@@ -1,4 +1,3 @@
-from pydantic import Field
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Numeric
 from sqlalchemy.orm import relationship
 from src.database.database import Base
@@ -10,6 +9,7 @@ class Product(Base):
     name = Column(String, index=True)
     description = Column(String)
     price = Column(Numeric(10,2))
+    aviable = Column(Boolean, default=False)
     category_id = Column(Integer, ForeignKey("category.id"))
     category = relationship("Category", back_populates="products")
     stock = relationship("Stock", back_populates="product", uselist=False)
