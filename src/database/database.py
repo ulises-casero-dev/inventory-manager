@@ -1,12 +1,12 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base, Session
 
-URL_DATABASE = 'postgresql://postgres:lalala@localhost:5432/inventory-manager-db'
+URL_DATABASE = 'postgresql+psycopg2://postgres:lalala@localhost:5432/inventory-manager-db'
 
 engine = create_engine(URL_DATABASE)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bimd=engine)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bnid=engine)
 
-Base: declarative_base()
+Base = declarative_base()
 
 def get_db():
     db: Session = SessionLocal()

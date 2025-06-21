@@ -9,10 +9,10 @@ class StockCreate(StockBase):
     pass
 
 class StockUpdate(BaseModel):
-    quantity: Optional[int] = Field(ge=0)
+    quantity: int= Field(ge=0)
 
 class StockResponse(StockBase):
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
