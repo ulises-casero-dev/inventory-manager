@@ -16,10 +16,12 @@ class OrderItemUpdate(BaseModel):
     product_id: Optional[int] = Field(gt=0)
     quantity: Optional[int] = Field(gt=0)
     unit_price: Optional[Decimal] = Field(gt=0)
+    canceled: Optional[bool]
 
 class OrderItemResponse(OrderItemBase):
     id: int
     subtotal: Decimal
-
+    canceled: bool
+    
     class Config:
         from_attributes = True

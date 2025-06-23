@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Numeric, ForeignKey
+from sqlalchemy import Column, Integer, Numeric, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 from src.database.database import Base
 
@@ -11,6 +11,7 @@ class OrderItem(Base):
     quantity = Column(Integer, nullable=False)
     unit_price = Column(Numeric(10,2), nullable=False)
     subtotal = Column(Numeric(10,2), nullable=False)
+    canceled = Column(Boolean, default=False)
     
     order = relationship("Order", back_populates="items")
-    order = relationship("Product")
+    product = relationship("Product")
