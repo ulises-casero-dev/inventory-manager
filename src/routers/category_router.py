@@ -31,7 +31,7 @@ def get_category_by_id(id: int, db: Session = Depends(get_db)):
 def create_category(category_data: CategoryCreate, db: Session = Depends(get_db)):
     new_category = create_category_service(db, category_data)
     if not new_category:
-        raise HTTPException(status_code=404, detail='Category could not be created')
+        raise HTTPException(status_code=400, detail='Error creating category')
     return new_category
 
 @category_router.put('/categories/{id}', status_code=200, summary='Update the information of a category', response_description='Updates the category with the specified ID')

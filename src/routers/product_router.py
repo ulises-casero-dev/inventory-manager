@@ -5,13 +5,14 @@ from src.schemas.product_schema import ProductResponse, ProductCreate, ProductUp
 from src.database.database import get_db
 from src.services.product_service import (
     get_all_products as get_all_products_service, 
+    get_product_by_id as get_product_by_id_service,
     create_product as create_product_service,
     update_product as update_product_service,
     desable_product as desable_product_service)
 
 product_router = APIRouter()
 
-@product_router.get('/products', status_code=200, response_model=List[ProductResponse],  response_description = 'List of available products')
+@product_router.get('/products', status_code=200, response_model=List[ProductResponse],  response_description='List of available products')
 def get_products(db: Session = Depends(get_db)):
     products = get_all_products_service(db)
     if not products: 
@@ -20,7 +21,7 @@ def get_products(db: Session = Depends(get_db)):
 
 @product_router.get('/products/{id}', status_code=200, response_model=ProductResponse, summary="Get a product by id", response_description='Returns a product if it exists')
 def get_product_by_id(id: int, db: Session = Depends(get_db)):
-    product = get_product_by_id(db, id)
+    product = get_product_by_id_service(db, id)
     if not product:
         raise HTTPException(status_code=404, detail='Product not found')
     return product

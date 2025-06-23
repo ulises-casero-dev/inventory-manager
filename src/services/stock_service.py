@@ -12,7 +12,7 @@ def create_stock(db: Session, stock_data: StockCreate):
     db.refresh(new_stock)
     return new_stock
 
-def get_stok_by_id(db: Session, id: int):
+def get_stock_by_id(db: Session, id: int):
     return db.get(Stock, id)
 
 def update_stock(db: Session, id: int, stock_data: StockUpdate):

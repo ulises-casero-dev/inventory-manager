@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Numeric
+from sqlalchemy import Column, Boolean, ForeignKey, Integer, String, Numeric
 from sqlalchemy.orm import relationship
 from src.database.database import Base
 
@@ -12,5 +12,5 @@ class Product(Base):
     available = Column(Boolean, default=True)
     category_id = Column(Integer, ForeignKey("category.id"))
     category = relationship("Category", back_populates="products")
-    stock = relationship("Stock", back_populates="product", uselist=False)
+    stock = relationship("Stock", back_populates="products", uselist=False)
 
