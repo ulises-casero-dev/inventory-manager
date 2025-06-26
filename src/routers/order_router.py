@@ -11,7 +11,10 @@ from src.services.order_service import (
     cancel_order as cancel_order_service
 )
 
-order_router = APIRouter()
+order_router = APIRouterorder_item_router = APIRouter(
+    prefix="/orders",
+    tags=["Orders"]
+)
 
 @order_router.get('/orders', status_code=200, response_model=List[OrderResponse], response_description='List of orders')
 def get_orders(db: Session = Depends(get_db)):

@@ -10,7 +10,10 @@ from src.services.product_service import (
     update_product as update_product_service,
     desable_product as desable_product_service)
 
-product_router = APIRouter()
+product_router = APIRouterorder_item_router = APIRouter(
+    prefix="/products",
+    tags=["Products"]
+)
 
 @product_router.get('/products', status_code=200, response_model=List[ProductResponse],  response_description='List of available products')
 def get_products(db: Session = Depends(get_db)):

@@ -10,7 +10,10 @@ from src.services.stock_service import (
     update_stock as update_stock_service
 )
 
-stock_router = APIRouter()
+stock_router = APIRouter(
+    prefix="/stocks",
+    tags=["Stocks"]
+)
 
 @stock_router.get('/stocks', status_code=200, response_model=List[StockResponse], response_description='List of available stock entries')
 def get_all_stocks(db: Session = Depends(get_db)):

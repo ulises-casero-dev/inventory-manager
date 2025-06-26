@@ -10,7 +10,7 @@ class Product(Base):
     description = Column(String)
     price = Column(Numeric(10,2))
     available = Column(Boolean, default=True)
-    category_id = Column(Integer, ForeignKey("category.id"))
+    category_id = Column(Integer, ForeignKey("categories.id"))
     category = relationship("Category", back_populates="products")
     stock = relationship("Stock", back_populates="products", uselist=False)
 

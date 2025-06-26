@@ -1,5 +1,8 @@
+from typing import List
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
+from src.models.order_model import Order
+from src.models.product_model import Product
 from src.models.order_item_model import OrderItem
 from src.schemas.order_item_schema import OrderItemCreate, OrderItemUpdate
 
@@ -20,8 +23,16 @@ def get_item_by_id(db: Session, id: int):
         return None
 
 def create_order_item(db: Session, item_data: OrderItemCreate):
-    new_item = OrderItem(**item_data.model_dump())
+    order = db.query(Order).filter(Order.id == item_data.order_id).first()
+    if not order:
+        raise Exception('Order not found')
+    
+    product = db.query(Product).filter(Product.id == item_data.product_id).first()
+    if not product:
+        raise Exception('Prodcut not found')
+
     try:
+        new_item = OrderItem(**item_data.model_dump())
         new_item.subtotal = new_item.quantity * new_item.unit_price
         db.add(new_item)
         db.commit()
@@ -67,3 +78,12 @@ def cancel_order_item(db: Session, id: int):
         db.rollback()
         print(f'Database error: {e}')
         return None
+    
+def add_item_order(db: Session, items_data: List[OrderItemCreate]):
+    created_items = []
+    for item_data in items_data:
+        item = create_order_item(db, item_data)
+        if not item:
+            return None
+        created_items.append(item)
+    return created_items

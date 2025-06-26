@@ -11,7 +11,10 @@ from src.services.category_service import(
     disable_category as disable_category_service
 )
 
-category_router = APIRouter()
+category_router = APIRouter(
+    prefix="/categories",
+    tags=["Categories"]
+)
 
 @category_router.get('/categories', status_code=200, response_model=List[CategoryResponse], response_description='List of categories')
 def get_categories(db: Session = Depends(get_db)):

@@ -11,7 +11,10 @@ from src.services.user_service import (
     deactivate_user as deactivate_user_service
 )
 
-user_router = APIRouter()
+user_router = APIRouter(
+    prefix="/users",
+    tags=["Users"]
+)
 
 @user_router.get('/users', status_code=200, response_model=List[UserResponse], response_description='List of users')
 def get_users(db: Session = Depends(get_db)):
