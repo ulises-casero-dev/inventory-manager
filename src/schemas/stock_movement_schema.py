@@ -6,7 +6,6 @@ class StockMovementBase(BaseModel):
     product_id: int = Field(gt=0)
     change: int
     movement_type: str = Field(min_length=5, max_length=15)
-    created_at: datetime = Field(gt=datetime.today)
 
 class StockMovementCreate(StockMovementBase):
     pass
@@ -17,6 +16,7 @@ class StockMovementUpdate(BaseModel):
 
 class StockMovementResponse(StockMovementBase):
     id: int
+    created_at: datetime
 
     class Config:
-        from_atributes = True
+        from_attributes = True
