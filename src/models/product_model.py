@@ -11,6 +11,9 @@ class Product(Base):
     price = Column(Numeric(10,2))
     available = Column(Boolean, default=True)
     category_id = Column(Integer, ForeignKey("categories.id"))
+    min_stock = Column(Integer, default=10)
+    
     category = relationship("Category", back_populates="products")
     stock = relationship("Stock", back_populates="products", uselist=False)
+    stock_movemetn = relationship("StockMovement", back_populates='products')
 

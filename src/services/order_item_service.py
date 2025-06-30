@@ -1,9 +1,11 @@
 from typing import List
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
+from src.models.stock_model import Stock
 from src.models.order_model import Order
 from src.models.product_model import Product
 from src.models.order_item_model import OrderItem
+from src.services.product_service import product_purchase
 from src.schemas.order_item_schema import OrderItemCreate, OrderItemUpdate
 
 def get_items_by_order_id(db: Session, id: int):
@@ -29,7 +31,12 @@ def create_order_item(db: Session, item_data: OrderItemCreate):
     
     product = db.query(Product).filter(Product.id == item_data.product_id).first()
     if not product:
-        raise Exception('Prodcut not found')
+        raise Exception('Product not found')
+
+    stock_available = product_purchase(db, item_data.product_id, item_data.quantity)
+    if not stock_available:
+        raise Exception('Stock no aviable for this amount')
+    
 
     try:
         new_item = OrderItem(**item_data.model_dump())
@@ -37,6 +44,7 @@ def create_order_item(db: Session, item_data: OrderItemCreate):
         db.add(new_item)
         db.commit()
         db.refresh(new_item)
+        db.refresh()
         return(new_item)
     except SQLAlchemyError as e:
         db.rollback()
