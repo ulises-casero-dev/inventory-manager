@@ -10,7 +10,7 @@ from src.services.product_service import (
     update_product as update_product_service,
     desable_product as desable_product_service)
 
-product_router = APIRouterorder_item_router = APIRouter(
+product_router = APIRouter(
     prefix="/products",
     tags=["Products"]
 )

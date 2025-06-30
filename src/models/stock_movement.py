@@ -1,6 +1,6 @@
 from datetime import datetime
 from src.database.database import Base
-from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, Numeric
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, Numeric
 from sqlalchemy.orm import relationship
 
 class StockMovement(Base):
@@ -11,5 +11,6 @@ class StockMovement(Base):
     change = Column(Integer, nullable=False)
     movement_type = Column(String, index=True, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
-    
+    canceled = Column(Boolean, default=False, nullable=False)
+
     product = relationship('Product', back_populates='stock_movements')

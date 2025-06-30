@@ -4,6 +4,7 @@ from src.routers.category_router import category_router
 from src.routers.order_router import order_router
 from src.routers.order_item_router import order_item_router
 from src.routers.stock_router import stock_router
+#from src.routers.stock_movement_router import 
 
 all_routers = [
     user_router,

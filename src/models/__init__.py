@@ -5,3 +5,4 @@ from src.models.stock_model import Stock
 from src.models.user_model import User
 from src.models.order_model import Order
 from src.models.order_item_model import OrderItem
+from src.models.stock_movement import StockMovement
