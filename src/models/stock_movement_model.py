@@ -1,6 +1,6 @@
 from datetime import datetime
 from src.database.database import Base
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime, Numeric
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime
 from sqlalchemy.orm import relationship
 
 class StockMovement(Base):

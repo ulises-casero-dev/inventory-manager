@@ -1,9 +1,6 @@
-from typing import List
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy import func
 from src.models.stock_movement_model import StockMovement
-from src.models.product_model import Product
 from src.schemas.stock_movement_schema import StockMovementCreate, StockMovementUpdate
 
 def get_all_movements(db: Session):

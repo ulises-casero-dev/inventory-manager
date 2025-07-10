@@ -3,9 +3,12 @@ from typing import List
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import func
+from src.schemas.stock_movement_schema import StockMovementCreate
 from src.models.product_model import Product
 from src.models.stock_model import Stock
 from src.schemas.product_schema import ProductUpdate, ProductCreate
+
+from src.services.stock_movement_service import create_movement
 
 def get_all_products(db: Session):
     return db.query(Product).filter(Product.available == True).all()
@@ -105,10 +108,20 @@ def product_purchase(db: Session, id: int, purchase_quantity: int):
             return None
         
         stock.quantity -= purchase_quantity
+        
+        movement_data = StockMovementCreate(
+            product_id=id,
+            change=-purchase_quantity,
+            movemente_type='sale'
+        )
+        create_movement(db, movement_data)
+        
         return stock
 
     except SQLAlchemyError as e:
         db.rollback()
         print(f'Database error: {e}')
         return None
+    
+
     
