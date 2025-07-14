@@ -9,6 +9,7 @@ Este proyecto es una API backend desarrollada con **Python y FastAPI** para gest
 - SQLAlchemy
 - PostgreSQL
 - Pydantic
+- Git / GitHub
 
 ## Funcionalidades principales
 
