@@ -8,12 +8,12 @@ class Product(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
     description = Column(String)
-    price = Column(Numeric(10,2))
     available = Column(Boolean, default=True)
     category_id = Column(Integer, ForeignKey("categories.id"))
-    min_stock = Column(Integer, default=10)
     
     category = relationship("Category", back_populates="products")
     stock = relationship("Stock", back_populates="products", uselist=False)
-    stock_movemetn = relationship("StockMovement", back_populates='products')
+    stock_movements = relationship("StockMovement", back_populates='products')
 
+    suppliers = relationship("ProductSupplier", back_populates="products",
+                             cascade="all, delete-orphan")
