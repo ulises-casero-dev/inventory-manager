@@ -15,5 +15,5 @@ class Product(Base):
     stock = relationship("Stock", back_populates="products", uselist=False)
     stock_movements = relationship("StockMovement", back_populates='products')
 
-    suppliers = relationship("ProductSupplier", back_populates="products",
-                             cascade="all, delete-orphan")
+    suppliers = relationship("ProductSupplier", back_populates="products", cascade="all, delete-orphan")
+    purchase_items = relationship("PurchaseItem", back_populates="product")
