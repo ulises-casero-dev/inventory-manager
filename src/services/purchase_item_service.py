@@ -2,9 +2,7 @@ from typing import List
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 from src.models.stock_model import Stock
-from src.models.order_model import Order
 from src.models.product_model import Product
-from src.models.order_item_model import OrderItem
 from src.services.product_service import product_purchase
 from src.schemas.order_item_schema import OrderItemCreate, OrderItemUpdate
 

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Boolean, ForeignKey, String, Integer, Numeric
+from sqlalchemy import Column, Boolean, String, Integer
 from sqlalchemy.orm import relationship
 from src.database.database import Base
 
@@ -11,5 +11,4 @@ class Supplier(Base):
     phone = Column(String(12), nullable=True)
     active = Column(Boolean, default=True, nullable=False)
 
-    suppliers = relationship("ProductSupplier", back_populates="supplier",
-                             cascade="all, delete-orphan")
+    product_suppliers = relationship("ProductSupplier", back_populates="supplier", cascade="all, delete-orphan")

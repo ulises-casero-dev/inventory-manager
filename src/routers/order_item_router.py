@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from typing import List
 from src.database.database import get_db
 from src.schemas.order_item_schema import OrderItemCreate,OrderItemUpdate, OrderItemResponse
-from src.services.order_item_service import (
+from src.services.purchase_item_service import (
     get_items_by_order_id as get_items_by_order_id_service,
     get_item_by_id as get_item_by_id_service,
     update_order_item as update_order_item_service,

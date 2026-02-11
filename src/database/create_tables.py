@@ -1,11 +1,14 @@
 from src.database.database import Base, engine
 from src.models import (
-    product_model,
     category_model,
+    product_model,
+    product_suppliers,
+    purchase_item_model,
+    purchase_model,
     stock_model,
-    user_model,
-    order_model,
-    order_item_model
+    stock_movement_model,
+    supplier_model,
+    user_model
 )
 
 if __name__ == '__main__':
