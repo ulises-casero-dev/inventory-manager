@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
-from src.schemas.order_schema import OrderCreate, OrderUpdate, OrderResponse
 from src.database.database import get_db
 from src.services.purchase_service import (
     get_all_orders as get_all_orders_service,

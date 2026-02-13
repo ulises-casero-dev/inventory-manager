@@ -1,38 +1,40 @@
 from sqlalchemy.orm import Session
 from src.models.purchase_model import Purchase
-from src.schemas.order_schema import OrderCreate, OrderUpdate
+from src.schemas.purchase_schema import PurchaseUpdate, PurchaseCreate, PurchaseResponse
 
-def get_all_orders(db: Session):
+
+def get_all_purchase(db: Session):
     return db.query(Purchase).all()
 
 def get_purchase_by_id(db: Session, id: int):
     return db.get(Purchase, id)
     
-def create_Purchase(db: Session, purchase_data: OrderCreate):
+def create_Purchase(db: Session, purchase_data: PurchaseCreate):
     new_purchase = Purchase(**purchase_data.model_dump())
     
     db.add(new_purchase)
     db.commit()
     db.refresh(new_purchase)
+
     return new_purchase
 
-def update_order(db: Session, id: int, order_data: OrderUpdate):
-    order = db.get(Order, id)
-    if not order:
+def update_order(db: Session, id: int, purcahse_data: PurchaseUpdate):
+    purchase = db.get(Purchase, id)
+    if not purchase:
         return None
-    update_data = order_data.model_dump(exclude_unset=True)
+    update_data = purcahse_data.model_dump(exclude_unset=True)
     for key, value in update_data.items():
-        setattr(order, key, value)
+        setattr(purchase, key, value)
 
     db.commit()
-    db.refresh(order)
-    return order
+    db.refresh(purchase)
+    return purchase
 
 def cancel_order(db: Session, id: int):
-    order = db.get(Order, id)
-    if not order:
+    purchase= db.get(Purchase, id)
+    if not purchase:
         return None
-    order.canceled = True
+    purchase.canceled = True
     
     db.commit()
-    return order
+    return purchase
