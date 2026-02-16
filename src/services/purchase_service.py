@@ -3,13 +3,13 @@ from src.models.purchase_model import Purchase
 from src.schemas.purchase_schema import PurchaseUpdate, PurchaseCreate, PurchaseResponse
 
 
-def get_all_purchase(db: Session):
+def get_all_purchases(db: Session):
     return db.query(Purchase).all()
 
 def get_purchase_by_id(db: Session, id: int):
     return db.get(Purchase, id)
     
-def create_Purchase(db: Session, purchase_data: PurchaseCreate):
+def create_purchase(db: Session, purchase_data: PurchaseCreate):
     new_purchase = Purchase(**purchase_data.model_dump())
     
     db.add(new_purchase)
@@ -18,7 +18,7 @@ def create_Purchase(db: Session, purchase_data: PurchaseCreate):
 
     return new_purchase
 
-def update_order(db: Session, id: int, purcahse_data: PurchaseUpdate):
+def update_purchase(db: Session, id: int, purcahse_data: PurchaseUpdate):
     purchase = db.get(Purchase, id)
     if not purchase:
         return None
@@ -30,7 +30,7 @@ def update_order(db: Session, id: int, purcahse_data: PurchaseUpdate):
     db.refresh(purchase)
     return purchase
 
-def cancel_order(db: Session, id: int):
+def cancel_purchase(db: Session, id: int):
     purchase= db.get(Purchase, id)
     if not purchase:
         return None
