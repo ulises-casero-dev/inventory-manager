@@ -2,11 +2,21 @@ from sqlalchemy.orm import Session
 from src.models.category_model import Category
 from src.models.product_model import Product
 from src.schemas.category_schema import CategoryBase, CategoryCreate, CategoryResponse, CategoryUpdate
+from src.exceptions.custom_exceptions import ConflictException
 
 def get_all_categories(db: Session):
     return db.query(Category).filter(Category.available == True).all()
 
 def create_category(db: Session, category_data: CategoryCreate):
+
+    category_exists = db.query(Category).filter(Category.name == category_data.name)
+
+    if category_exists:
+        raise ConflictException(
+            message="Category with this name already exists.",
+            error_code="CATEGORY_ALREADY_EXISTS"
+        )
+
     new_category = Category(**category_data.model_dump())
     db.add(new_category)
     db.commit()
@@ -17,6 +27,14 @@ def get_category_by_id(db: Session, id: int):
     return db.get(Category, id)
 
 def update_category(db: Session, id: int, category_data: CategoryUpdate):
+
+    category_exists = db.query(Category).filter(Category.name == category_data.name)
+    if category_exists:
+        raise ConflictException(
+            message="Category with this name already exists.",
+            error_code="CATEGORY_ALREADY_EXISTS"
+        )
+
     category = db.get(Category, id)
     if not category:
         return None

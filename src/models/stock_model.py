@@ -9,4 +9,5 @@ class Stock(Base):
     product_id = Column(Integer, ForeignKey("products.id"), unique=True)
     quantity = Column(Integer)
     min_quantity = Column(Integer, default=10)
-    product = relationship("Product", back_populates="stocks")
+
+    products = relationship("Product", back_populates="stock")

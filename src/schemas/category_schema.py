@@ -3,13 +3,13 @@ from pydantic import BaseModel, Field
 
 
 class CategoryBase(BaseModel):
-    name: str = Field(min_length=4)
+    name: str = Field(...,min_length=4)
 
 class CategoryCreate(CategoryBase):
     pass
 
 class CategoryUpdate(BaseModel):
-    name: str = Field(min_length=4)
+    name: str = Field(...,min_length=4)
 
 class CategoryResponse(CategoryBase):
     id: int

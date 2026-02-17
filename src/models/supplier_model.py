@@ -12,3 +12,4 @@ class Supplier(Base):
     active = Column(Boolean, default=True, nullable=False)
 
     product_suppliers = relationship("ProductSupplier", back_populates="supplier", cascade="all, delete-orphan")
+    purchases = relationship("Purchase", back_populates="supplier")

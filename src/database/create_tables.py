@@ -2,7 +2,7 @@ from src.database.database import Base, engine
 from src.models import (
     category_model,
     product_model,
-    product_suppliers,
+    product_supplier_model,
     purchase_item_model,
     purchase_model,
     stock_model,

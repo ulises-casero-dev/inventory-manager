@@ -1,7 +1,3 @@
-from fastapi import FastAPI
-from src.routers import all_routers
+from src.core.app import create_app
 
-app = FastAPI()
-
-for router in all_routers:
-    app.include_router(router)
+app = create_app()

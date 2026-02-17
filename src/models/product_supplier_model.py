@@ -15,4 +15,4 @@ class ProductSupplier(Base):
     __table_args__ = (UniqueConstraint("product_id", "supplier_id", name="uq_product_supplier"),)
 
     supplier = relationship("Supplier", back_populates="product_suppliers")
-    product = relationship("Product", back_populates="product_suppliers")
+    products = relationship("Product", back_populates="product_suppliers")

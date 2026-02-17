@@ -13,4 +13,4 @@ class StockMovement(Base):
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     canceled = Column(Boolean, default=False, nullable=False)
 
-    product = relationship('Product', back_populates='stock_movements')
+    products = relationship('Product', back_populates='stock_movements')
