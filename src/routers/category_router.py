@@ -8,6 +8,7 @@ from src.services.category_service import(
     create_category as create_category_service,
     get_category_by_id as get_category_by_id_service,
     update_category as update_category_service,
+    enable_category as enable_category_service,
     disable_category as disable_category_service
 )
 
@@ -44,7 +45,14 @@ def update_category(id: int, category_data: CategoryUpdate, db: Session = Depend
         raise HTTPException(status_code=404, detail='Category not found')
     return category
 
-@category_router.delete('/categories/{id}', status_code=200, summary='Delete de category', response_description='Logically deletes the category with the specified ID')
+@category_router.patch('/categories/enable/{id}', status_code=200, summary='Delete de category', response_description='Logically deletes the category with the specified ID')
+def delete_category(id: int, db: Session = Depends(get_db)):
+    category = enable_category_service(db, id)
+    if not category:
+        raise HTTPException(status_code=404, detail='Category not found')
+    return category
+
+@category_router.patch('/categories/disable/{id}', status_code=200, summary='Delete de category', response_description='Logically deletes the category with the specified ID')
 def delete_category(id: int, db: Session = Depends(get_db)):
     category = disable_category_service(db, id)
     if not category:

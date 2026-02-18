@@ -13,6 +13,7 @@ class CategoryUpdate(BaseModel):
 
 class CategoryResponse(CategoryBase):
     id: int
+    available: bool
 
     class Config:
         from_attributes = True

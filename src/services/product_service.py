@@ -5,8 +5,10 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import func
 from src.schemas.stock_movement_schema import StockMovementCreate
 from src.models.product_model import Product
+from src.models.category_model import Category
 from src.models.stock_model import Stock
 from src.schemas.product_schema import ProductUpdate, ProductCreate
+from src.exceptions.custom_exceptions import ConflictException
 
 from src.services.stock_movement_service import create_movement
 
@@ -15,9 +17,14 @@ def get_all_products(db: Session):
 
 def create_product(db: Session, product_data: ProductCreate):
     try:
-        existing_product = get_product_by_name(db, product_data.name.lower())
+        existing_product = db.query(Product).filter(Product.name == product_data.name).first()
+
         if existing_product:
-            return None
+            raise ConflictException(
+                message="Product with this name already exists.",
+                error_code="PRODUCT_ALREADY_EXISTS"
+            )
+
         new_product = Product(**product_data.model_dump())       
         db.add(new_product)
         db.commit()
@@ -36,8 +43,36 @@ def update_product(db: Session, id: int, product_data: ProductUpdate):
     product = db.get(Product, id)
     if not product:
         return None
-    
+
     update_data = product_data.model_dump(exclude_unset=True)
+
+    if "name" in update_data and update_data["name"] != product.name:
+        existing_product = db.query(Product).filter(
+            Product.name == update_data["name"],
+            Product.id != id
+        ).first()
+
+        if existing_product:
+            raise ConflictException(
+                message="Product with this name already exists.",
+                error_code="PRODUCT_ALREADY_EXISTS"
+            )
+
+    if "category_id" in update_data and update_data["category_id"] != product.category_id:
+        existing_category = db.query(Category).filter(Category.id == update_data["category_id"]).first()
+
+        if not existing_category:
+            raise ConflictException(
+                message="The selected category does not exists.",
+                error_code="CATEGORY_NOT_EXISTS"
+            )
+
+        if not existing_category.available:
+            raise ConflictException(
+                message="The selected category is not available.",
+                error_code="CATEGORY_NOT_AVAILABLE"
+            )
+
     for key, value in update_data.items():
         setattr(product, key, value)
 

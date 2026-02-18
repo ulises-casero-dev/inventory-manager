@@ -18,8 +18,8 @@ product_router = APIRouter(
 @product_router.get('/products', status_code=200, response_model=List[ProductResponse],  response_description='List of available products')
 def get_products(db: Session = Depends(get_db)):
     products = get_all_products_service(db)
-    if not products: 
-       raise HTTPException(status_code=404, detail="No products found")
+    if not products:
+        raise HTTPException(status_code=404, detail="No products found")
     return products
 
 @product_router.get('/products/{id}', status_code=200, response_model=ProductResponse, summary="Get a product by id", response_description='Returns a product if it exists')
