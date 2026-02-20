@@ -12,13 +12,14 @@ class ProductCreate(ProductBase):
     pass
 
 class ProductUpdate(BaseModel):
-    name: Optional[str] = Field(min_length=4, max_length=50)
-    description: Optional[str] = Field(min_length=15, max_length=250)
-    price: Optional[float] = Field(gt=0)
-    category_id: Optional[int] = Field(gt=0)
+    name: Optional[str] = Field(default=None,min_length=4, max_length=50)
+    description: Optional[str] = Field(default=None,min_length=15, max_length=250)
+    price: Optional[float] = Field(default=None,gt=0)
+    category_id: Optional[int] = Field(default=None,gt=0)
 
 class ProductResponse(ProductBase):
     id: int
+    available: bool
 
     class Config:
         from_attributes = True

@@ -6,9 +6,10 @@ from src.database.database import get_db
 from src.services.product_service import (
     get_all_products as get_all_products_service, 
     get_product_by_id as get_product_by_id_service,
+    get_lower_stocks as get_lower_stocks_service,
     create_product as create_product_service,
     update_product as update_product_service,
-    desable_product as desable_product_service)
+    disable_product as disable_product_service)
 
 product_router = APIRouter(
     prefix="/products",
@@ -18,6 +19,13 @@ product_router = APIRouter(
 @product_router.get('/products', status_code=200, response_model=List[ProductResponse],  response_description='List of available products')
 def get_products(db: Session = Depends(get_db)):
     products = get_all_products_service(db)
+    if not products:
+        raise HTTPException(status_code=404, detail="No products found")
+    return products
+
+@product_router.get('/products/lower_stocks', status_code=200, response_model=List[ProductResponse],  summary='List of products stoks', response_description='List of products with lower stock')
+def get_products(db: Session = Depends(get_db)):
+    products = get_lower_stocks_service(db)
     if not products:
         raise HTTPException(status_code=404, detail="No products found")
     return products
@@ -45,7 +53,7 @@ def update_product(id: int, product_data: ProductUpdate, db: Session = Depends(g
 
 @product_router.delete('/products/{id}', status_code=200, response_model=ProductResponse, summary='Delete the product', response_description='Logically deletes the product with the specified ID')
 def delete_product(id:int, db: Session = Depends(get_db)):
-    product = desable_product_service(db, id)
+    product = disable_product_service(db, id)
     if not product:
         raise HTTPException(status_code=404,detail='Product not found')
     return product

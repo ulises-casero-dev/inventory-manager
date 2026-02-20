@@ -80,10 +80,16 @@ def update_product(db: Session, id: int, product_data: ProductUpdate):
     db.refresh(product)
     return product
 
-def desable_product(db: Session, id: int):
+def disable_product(db: Session, id: int):
     product = db.get(Product, id)
     if not product:
         return None
+
+    if not product.available:
+        raise ConflictException(
+            message="This product is already disabled.",
+            error_code="PRODUCT_ALREADY_DISABLED"
+        )
     
     product.available = False
     db.commit()
@@ -121,7 +127,7 @@ def bulk_update_prices(db: Session, category_id, percentaje_incres: float):
 
 def get_lower_stocks(db: Session):
     try:
-        return db.query(Product).join(Stock).filter(Stock.quantity <= Product.min_stock).all()
+        return db.query(Product).join(Stock).filter(Stock.quantity <= Stock.min_quantity).all()
     except SQLAlchemyError as e:
         print(f'Database error: {e}')
         return []
