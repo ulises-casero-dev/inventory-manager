@@ -142,7 +142,7 @@ def product_purchase(db: Session, id: int, purchase_quantity: int):
         if not stock:
             return None
         
-        if stock.quantity < product.min_stock:
+        if stock.quantity < purchase_quantity:
             return None
         
         if stock.quantity < purchase_quantity:

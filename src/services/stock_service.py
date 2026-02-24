@@ -15,6 +15,9 @@ def create_stock(db: Session, stock_data: StockCreate):
 def get_stock_by_id(db: Session, id: int):
     return db.get(Stock, id)
 
+def get_stock_by_prodcut_id(db: Session, product_id: int):
+    return db.query(Stock).filter(Stock.product_id == product_id).first()
+
 def update_stock(db: Session, id: int, stock_data: StockUpdate):
     stock = db.get(Stock, id)
     if not stock:

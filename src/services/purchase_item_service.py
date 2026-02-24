@@ -7,8 +7,14 @@ import src.models.purchase_model
 from src.models.purchase_model import Purchase
 from src.models.purchase_item_model import PurchaseItem
 from src.models.product_model import Product
-from src.services.product_service import product_purchase
+
 from src.schemas.purchase_item_schema import PurchaseItemCreate, PurchaseItemUpdate, PurchaseItemResponse
+
+from src.services.product_service import get_product_by_id
+from src.services.purchase_service import get_purchase_by_id
+from src.services.stock_service import get_stock_by_prodcut_id
+
+from src.exceptions.custom_exceptions import ConflictException
 
 def get_items_by_purchase_id(db: Session, id: int):
     try:
@@ -27,13 +33,20 @@ def get_item_by_id(db: Session, id: int):
         return None
 
 def create_purchase_item(db: Session, item_data: PurchaseItemCreate):
-    purchase = db.query(Purchase).filter(Purchase.id == item_data.purchase_id).first()
+
+    purchase = get_purchase_by_id(item_data.purchase_id)
     if not purchase:
         raise ValueError('Purchase not found')
     
-    product = db.query(Product).filter(Product.id == item_data.product_id).first()
+    product = get_product_by_id(item_data.product_id)
     if not product:
         raise ValueError('Product not found')
+
+    if item_data.quantity > get_stock_by_prodcut_id(item_data.product_id):
+        raise ConflictException(
+            message="The item quantity cant be higher than the stock quantity.",
+            error_code="LOWER_STOCK"
+        )
 
     try:
         new_item = PurchaseItem(**item_data.model_dump())
