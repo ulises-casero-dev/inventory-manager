@@ -3,9 +3,7 @@ from pydantic import BaseModel, Field
 from decimal import Decimal
 
 class PurchaseItemBase(BaseModel):
-    purchase_id: int = Field(gt=0)
     product_id: int = Field(gt=0)
-    unit_price: Decimal = Field(gt=0)
     quantity: int = Field(gt=0)
 
 class PurchaseItemCreate(PurchaseItemBase):
@@ -13,9 +11,12 @@ class PurchaseItemCreate(PurchaseItemBase):
 
 class PurchaseItemUpdate(BaseModel):
     quantity: Optional[int] = Field(default=None, gt=0)
+
 class PurchaseItemResponse(PurchaseItemBase):
     id: int
-    subt_total: Decimal
+    purchase_id: int
+    unit_price: Decimal
+    subtotal: Decimal
 
     class Config:
         from_attributes: True

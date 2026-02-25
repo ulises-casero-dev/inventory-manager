@@ -7,7 +7,6 @@ class Purchase(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     supplier_id = Column(Integer, ForeignKey("suppliers.id"), nullable=False)
-
     total_price = Column(Numeric(10,2), nullable=False)
     date = Column(Date, server_default=func.current_date(), nullable=False)
 

@@ -6,7 +6,7 @@ class Supplier(Base):
     __tablename__ = 'suppliers'
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(150), index=True, nullable=False)
+    name = Column(String(150), index=True, unique=True, nullable=False)
     email = Column(String(100), nullable=True, unique=True)
     phone = Column(String(12), nullable=True)
     active = Column(Boolean, default=True, nullable=False)

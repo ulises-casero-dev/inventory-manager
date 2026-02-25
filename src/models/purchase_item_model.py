@@ -11,7 +11,7 @@ class PurchaseItem(Base):
 
     unit_price = Column(Numeric(10,2), nullable=False)
     quantity = Column(Integer, nullable=False)
-    sub_total = Column(Numeric(10,2), nullable=False)
+    subtotal = Column(Numeric(10,2), nullable=False)
 
     purchase = relationship("Purchase", back_populates="items")
     product = relationship("Product", back_populates="purchase_items")

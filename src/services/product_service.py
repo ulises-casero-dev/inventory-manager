@@ -13,7 +13,10 @@ from src.exceptions.custom_exceptions import ConflictException
 from src.services.stock_movement_service import create_movement
 
 def get_all_products(db: Session):
-    return db.query(Product).filter(Product.available == True).all()
+    return db.query(Product).all()
+
+def get_all_active_products(db: Session):
+    return db.query(Product).filter(Product.available).all()
 
 def create_product(db: Session, product_data: ProductCreate):
     try:

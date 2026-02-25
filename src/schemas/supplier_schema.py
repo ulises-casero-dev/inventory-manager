@@ -17,6 +17,7 @@ class SupplierUpdate(BaseModel):
 
 class SupplierResponse(SupplierBase):
     id: int
+    active: bool
 
     class Config:
         from_attributes: True
